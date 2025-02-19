@@ -1,0 +1,436 @@
+{
+	"info": {
+		"_postman_id": "e7dd7393-8199-4501-be60-3f24255d20f9",
+		"name": "reto - tipo de cambio",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27888105"
+	},
+	"item": [
+		{
+			"name": "endpoints",
+			"item": [
+				{
+					"name": "listar tipos de cambio",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/tipo-cambio/listar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"tipo-cambio",
+								"listar"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "exito",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/tipo-cambio/listar",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"tipo-cambio",
+										"listar"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 19 Feb 2025 23:17:45 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"monedaOrigen\": \"USD\",\n        \"monedaDestino\": \"PEN\",\n        \"tipoCambio\": 3.75\n    },\n    {\n        \"id\": 2,\n        \"monedaOrigen\": \"EUR\",\n        \"monedaDestino\": \"PEN\",\n        \"tipoCambio\": 3.84\n    },\n    {\n        \"id\": 3,\n        \"monedaOrigen\": \"GBP\",\n        \"monedaDestino\": \"PEN\",\n        \"tipoCambio\": 4.64\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "actualizar",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": [
+						{
+							"name": "exito",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"monedaOrigen\": \"USD\",\r\n    \"monedaDestino\": \"PEN\",\r\n    \"tipoCambio\": 3.75\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/tipo-cambio/actualizar/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"tipo-cambio",
+										"actualizar",
+										"1"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 19 Feb 2025 23:14:31 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"monedaOrigen\": \"USD\",\n    \"monedaDestino\": \"PEN\",\n    \"tipoCambio\": 3.75\n}"
+						}
+					]
+				},
+				{
+					"name": "crear tipo de cambio",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"monedaOrigen\": \"GBP\",\r\n    \"monedaDestino\": \"PEN\",\r\n    \"tipoCambio\": 4.64\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/tipo-cambio/guardar",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"tipo-cambio",
+								"guardar"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "exito",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"monedaOrigen\": \"USD\",\r\n    \"monedaDestino\": \"PEN\",\r\n    \"tipoCambio\": 3.65\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/tipo-cambio/guardar",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"tipo-cambio",
+										"guardar"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 19 Feb 2025 23:10:05 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"monedaOrigen\": \"USD\",\n    \"monedaDestino\": \"PEN\",\n    \"tipoCambio\": 3.65\n}"
+						},
+						{
+							"name": "exito 2",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"monedaOrigen\": \"EUR\",\r\n    \"monedaDestino\": \"PEN\",\r\n    \"tipoCambio\": 3.84\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/tipo-cambio/guardar",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"tipo-cambio",
+										"guardar"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 19 Feb 2025 23:16:51 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 2,\n    \"monedaOrigen\": \"EUR\",\n    \"monedaDestino\": \"PEN\",\n    \"tipoCambio\": 3.84\n}"
+						}
+					]
+				},
+				{
+					"name": "calcular el tipo de cambio",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"monto\": 100.0,\r\n    \"monedaOrigen\": \"USD\",\r\n    \"monedaDestino\": \"PEN\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/tipo-cambio/calcular",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"tipo-cambio",
+								"calcular"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "conversion de dolares a soles",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"monto\": 100.0,\r\n    \"monedaOrigen\": \"USD\",\r\n    \"monedaDestino\": \"PEN\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/tipo-cambio/calcular",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"tipo-cambio",
+										"calcular"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 19 Feb 2025 23:16:00 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"monto\": 100,\n    \"monedaOrigen\": \"USD\",\n    \"monedaDestino\": \"PEN\",\n    \"tipoCambio\": 3.75,\n    \"montoConvertido\": 375\n}"
+						},
+						{
+							"name": "conversion de euros a soles",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"monto\": 150.0,\r\n    \"monedaOrigen\": \"EUR\",\r\n    \"monedaDestino\": \"PEN\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/tipo-cambio/calcular",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"tipo-cambio",
+										"calcular"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 19 Feb 2025 23:18:25 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"monto\": 150,\n    \"monedaOrigen\": \"EUR\",\n    \"monedaDestino\": \"PEN\",\n    \"tipoCambio\": 3.84,\n    \"montoConvertido\": 576\n}"
+						}
+					]
+				}
+			]
+		}
+	]
+}
