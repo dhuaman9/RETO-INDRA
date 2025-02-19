@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS  TIPO_CAMBIO (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    moneda_origen VARCHAR(4) NOT NULL,
+    moneda_destino VARCHAR(4) NOT NULL,
+    tipo_cambio DOUBLE NOT NULL
+);
