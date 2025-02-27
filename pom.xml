@@ -12,7 +12,7 @@
 	<artifactId>TipoCambio</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>TipoCambio</name>
-	<description>reto de INDRA</description>
+	<description>reto de INDRA: API  Tipo de Cambio</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -26,11 +26,11 @@
 		<tag/>
 		<url/>
 	</scm>
+	
 	<properties>
 		<java.version>17</java.version>
-		<spring-boot.version>3.0.0</spring-boot.version>
-   	 	<springdoc-openapi.version>2.3.0</springdoc-openapi.version>
 	</properties>
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -68,11 +68,6 @@
 		<dependency>
 		    <groupId>org.springdoc</groupId>
 		    <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-		    <version>2.3.0</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.springdoc</groupId>
-		    <artifactId>springdoc-openapi-starter-common</artifactId>
 		    <version>2.3.0</version>
 		</dependency>
 
