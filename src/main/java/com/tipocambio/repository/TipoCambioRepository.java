@@ -11,5 +11,8 @@ import com.tipocambio.model.TipoCambio;
 public interface TipoCambioRepository extends JpaRepository<TipoCambio, Long>{
 
 	  Optional<TipoCambio> findByMonedaOrigenAndMonedaDestino(String monedaOrigen, String monedaDestino);
+	  
+	  boolean existsByMonedaOrigenAndMonedaDestino(String monedaOrigen, String monedaDestino);
+
 	
 }

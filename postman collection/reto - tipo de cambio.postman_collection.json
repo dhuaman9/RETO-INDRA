@@ -15,12 +15,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/tipo-cambio/listar",
+							"raw": "http://localhost:8088/api/tipo-cambio/listar",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8088",
 							"path": [
 								"api",
 								"tipo-cambio",
@@ -30,17 +30,17 @@
 					},
 					"response": [
 						{
-							"name": "exito",
+							"name": "listado",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/api/tipo-cambio/listar",
+									"raw": "http://localhost:8088/api/tipo-cambio/listar",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8080",
+									"port": "8088",
 									"path": [
 										"api",
 										"tipo-cambio",
@@ -62,7 +62,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Wed, 19 Feb 2025 23:17:45 GMT"
+									"value": "Thu, 27 Feb 2025 14:23:02 GMT"
 								},
 								{
 									"key": "Keep-Alive",
@@ -74,15 +74,38 @@
 								}
 							],
 							"cookie": [],
-							"body": "[\n    {\n        \"id\": 1,\n        \"monedaOrigen\": \"USD\",\n        \"monedaDestino\": \"PEN\",\n        \"tipoCambio\": 3.75\n    },\n    {\n        \"id\": 2,\n        \"monedaOrigen\": \"EUR\",\n        \"monedaDestino\": \"PEN\",\n        \"tipoCambio\": 3.84\n    },\n    {\n        \"id\": 3,\n        \"monedaOrigen\": \"GBP\",\n        \"monedaDestino\": \"PEN\",\n        \"tipoCambio\": 4.64\n    }\n]"
+							"body": "[\n    {\n        \"id\": 1,\n        \"monedaOrigen\": \"USD\",\n        \"monedaDestino\": \"PEN\",\n        \"tipoCambio\": 3.75\n    },\n    {\n        \"id\": 2,\n        \"monedaOrigen\": \"EUR\",\n        \"monedaDestino\": \"PEN\",\n        \"tipoCambio\": 3.8\n    }\n]"
 						}
 					]
 				},
 				{
 					"name": "actualizar",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"monedaOrigen\": \"USD\",\r\n    \"monedaDestino\": \"PEN\",\r\n    \"tipoCambio\": 3.75\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8088/api/tipo-cambio/actualizar/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"api",
+								"tipo-cambio",
+								"actualizar",
+								"1"
+							]
+						}
 					},
 					"response": [
 						{
@@ -100,12 +123,12 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/api/tipo-cambio/actualizar/1",
+									"raw": "http://localhost:8088/api/tipo-cambio/actualizar/1",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8080",
+									"port": "8088",
 									"path": [
 										"api",
 										"tipo-cambio",
@@ -151,7 +174,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"monedaOrigen\": \"GBP\",\r\n    \"monedaDestino\": \"PEN\",\r\n    \"tipoCambio\": 4.64\r\n}",
+							"raw": "{\r\n    \"monedaOrigen\": \"EUR\",\r\n    \"monedaDestino\": \"PEN\",\r\n    \"tipoCambio\": 3.80\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -159,12 +182,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/tipo-cambio/guardar",
+							"raw": "http://localhost:8088/api/tipo-cambio/guardar",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8088",
 							"path": [
 								"api",
 								"tipo-cambio",
@@ -173,6 +196,58 @@
 						}
 					},
 					"response": [
+						{
+							"name": "caso error-falta campo",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \r\n    \"monedaDestino\": \"PEN\",\r\n    \"tipoCambio\": 3.65\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/tipo-cambio/guardar",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"tipo-cambio",
+										"guardar"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 27 Feb 2025 00:23:15 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"monedaOrigen\": \"La moneda origen es obligatoria\"\n}"
+						},
 						{
 							"name": "exito",
 							"originalRequest": {
@@ -188,12 +263,12 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/api/tipo-cambio/guardar",
+									"raw": "http://localhost:8088/api/tipo-cambio/guardar",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8080",
+									"port": "8088",
 									"path": [
 										"api",
 										"tipo-cambio",
@@ -215,7 +290,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Wed, 19 Feb 2025 23:10:05 GMT"
+									"value": "Thu, 27 Feb 2025 14:20:53 GMT"
 								},
 								{
 									"key": "Keep-Alive",
@@ -228,62 +303,6 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"id\": 1,\n    \"monedaOrigen\": \"USD\",\n    \"monedaDestino\": \"PEN\",\n    \"tipoCambio\": 3.65\n}"
-						},
-						{
-							"name": "exito 2",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"monedaOrigen\": \"EUR\",\r\n    \"monedaDestino\": \"PEN\",\r\n    \"tipoCambio\": 3.84\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:8080/api/tipo-cambio/guardar",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"api",
-										"tipo-cambio",
-										"guardar"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "Transfer-Encoding",
-									"value": "chunked"
-								},
-								{
-									"key": "Date",
-									"value": "Wed, 19 Feb 2025 23:16:51 GMT"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=60"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"id\": 2,\n    \"monedaOrigen\": \"EUR\",\n    \"monedaDestino\": \"PEN\",\n    \"tipoCambio\": 3.84\n}"
 						}
 					]
 				},
@@ -294,7 +313,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"monto\": 100.0,\r\n    \"monedaOrigen\": \"USD\",\r\n    \"monedaDestino\": \"PEN\"\r\n}",
+							"raw": "{\r\n    \"monto\": 120,\r\n    \"monedaOrigen\": \"USD\",\r\n    \"monedaDestino\": \"PEN\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -302,12 +321,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/tipo-cambio/calcular",
+							"raw": "http://localhost:8088/api/tipo-cambio/calcular",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8080",
+							"port": "8088",
 							"path": [
 								"api",
 								"tipo-cambio",
@@ -331,12 +350,12 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/api/tipo-cambio/calcular",
+									"raw": "http://localhost:8088/api/tipo-cambio/calcular",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8080",
+									"port": "8088",
 									"path": [
 										"api",
 										"tipo-cambio",
@@ -387,12 +406,12 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/api/tipo-cambio/calcular",
+									"raw": "http://localhost:8088/api/tipo-cambio/calcular",
 									"protocol": "http",
 									"host": [
 										"localhost"
 									],
-									"port": "8080",
+									"port": "8088",
 									"path": [
 										"api",
 										"tipo-cambio",
@@ -427,6 +446,114 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"monto\": 150,\n    \"monedaOrigen\": \"EUR\",\n    \"monedaDestino\": \"PEN\",\n    \"tipoCambio\": 3.84,\n    \"montoConvertido\": 576\n}"
+						},
+						{
+							"name": "caso error - falta el monto",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"monto\": \"\",\r\n    \"monedaOrigen\": \"USD\",\r\n    \"monedaDestino\": \"PEN\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8088/api/tipo-cambio/calcular",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"api",
+										"tipo-cambio",
+										"calcular"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 27 Feb 2025 00:23:56 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"monto\": \"El monto es obligatorio\"\n}"
+						},
+						{
+							"name": "not found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"monto\": 120,\r\n    \"monedaOrigen\": \"UFF\",\r\n    \"monedaDestino\": \"PEN\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8088/api/tipo-cambio/calcular",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"api",
+										"tipo-cambio",
+										"calcular"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 27 Feb 2025 14:24:33 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": \"Tipo de cambio no encontrado\"\n}"
 						}
 					]
 				}

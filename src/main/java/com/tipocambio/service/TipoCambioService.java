@@ -3,102 +3,125 @@ package com.tipocambio.service;
 import com.tipocambio.repository.TipoCambioRepository;
 
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
-import com.tipocambio.dto.TipoCambioDTO;
+import com.tipocambio.dto.CalcularTipoCambioRequestDTO;
+import com.tipocambio.dto.CalcularTipoCambioResponseDTO;
+import com.tipocambio.dto.TipoCambioRequestDTO;
+import com.tipocambio.dto.TipoCambioResponseDTO;
+import com.tipocambio.mapper.TipoCambioMapper;
 import com.tipocambio.model.TipoCambio;
+import com.tipocambio.validation.TipoCambioValidator;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class TipoCambioService {
 
 	private final TipoCambioRepository tipoCambioRepository;
+	private final TipoCambioMapper tipoCambioMapper;
+	private final TipoCambioValidator tipoCambioValidator;
 
-	public TipoCambioService(TipoCambioRepository tipoCambioRepository) {
-		this.tipoCambioRepository = tipoCambioRepository;
-	}
+//	public TipoCambioService(TipoCambioRepository tipoCambioRepository) {  si se usa el @RequiredArgsConstructor, no tiene razon de ser este constructor 
+//		this.tipoCambioRepository = tipoCambioRepository;
+//	}
 
 	/**
 	 * Calcula el monto convertido según el tipo de cambio almacenado.
 	 */
-	public TipoCambioDTO calcularTipoCambio(TipoCambioDTO dto) {
-		Optional<TipoCambio> tipocmbOpt = tipoCambioRepository.findByMonedaOrigenAndMonedaDestino(dto.getMonedaOrigen(),
-				dto.getMonedaDestino());
-
-		if (tipocmbOpt.isEmpty()) {
-			throw new IllegalArgumentException(
-					"Tipo de cambio no encontrado para " + dto.getMonedaOrigen() + " a " + dto.getMonedaDestino());
-		}
-
-		TipoCambio tipocmb = tipocmbOpt.get();
-
-		// Conversión con BigDecimal
-		BigDecimal monto = dto.getMonto();
-		BigDecimal tipoCambio = tipocmb.getTipoCambio();
-		BigDecimal montoConvertido = monto.multiply(tipoCambio).setScale(2, RoundingMode.HALF_UP);
-
-		// Asignar valores al DTO
-		dto.setTipoCambio(tipoCambio);
-		dto.setMontoConvertido(montoConvertido);
-
-		return dto;
-	}
-
-	//listamos los tipos de cambio
-	public List<TipoCambioDTO> listarTiposCambio() {
-		List<TipoCambio> tiposCambio = tipoCambioRepository.findAll();
-		return tiposCambio.stream().map(this::convertirEntidadADTO).collect(Collectors.toList());
-	}
-
-	@Transactional
-	public TipoCambioDTO guardarTipoCambio(TipoCambioDTO dto) {
-		// Verificar si ya existe un tipo de cambio con la misma monedaOrigen y monedaDestino
-		boolean existe = tipoCambioRepository
-				.findByMonedaOrigenAndMonedaDestino(dto.getMonedaOrigen(), dto.getMonedaDestino()).isPresent();
-
-		if (existe) {
-			throw new IllegalArgumentException(
-					"Ya existe un tipo de cambio para " + dto.getMonedaOrigen() + " a " + dto.getMonedaDestino());
-		}
-
-		// Crear una nueva entidad desde el DTO
-		TipoCambio tipoCambio = convertirDTOaEntidad(dto);
-
-		tipoCambio = tipoCambioRepository.save(tipoCambio);
-
-		// Convertimos la entidad guardada a DTO y la retornamos
-		return convertirEntidadADTO(tipoCambio);
-	}
-
-	@Transactional
-	public TipoCambioDTO actualizarTipoCambio(Long id, TipoCambioDTO dto) {
-		TipoCambio tipoCambio = tipoCambioRepository.findById(id)
-				.orElseThrow(() -> new IllegalArgumentException("No se encontró el tipo de cambio con ID: " + id));
+	public CalcularTipoCambioResponseDTO calcularTipoCambio(CalcularTipoCambioRequestDTO dto) {
+		log.info("Se inicia el calculo de tipo de cambio para {} -> {}", dto.getMonedaOrigen(), dto.getMonedaDestino());
 
 		
+		TipoCambio tipoCambio = tipoCambioRepository
+				.findByMonedaOrigenAndMonedaDestino(dto.getMonedaOrigen(), dto.getMonedaDestino())
+				.orElseThrow(() -> {
+					log.error("Tipo de cambio no encontrado para {} -> {}", dto.getMonedaOrigen(), dto.getMonedaDestino());
+					return new ResponseStatusException(HttpStatus.NOT_FOUND, "Tipo de cambio no encontrado");
+				});
+
+		
+		// Aquí se realiza el cálculo
+	    BigDecimal montoConTipoCambio = dto.getMonto().multiply(tipoCambio.getTipoCambio());
+
+	    // Pasamos solo los objetos necesarios al mapper
+	    log.info("Tipo de cambio encontrado: {}", tipoCambio);
+	    return tipoCambioMapper.toResponseDTO(dto, tipoCambio, montoConTipoCambio);
+	}
+
+	
+	/**
+	 *  lista los tipos de cambio
+	 */
+	
+	public List<TipoCambioResponseDTO> listarTiposDeCambio() {
+		List<TipoCambio> lista = tipoCambioRepository.findAll();
+		return lista.stream().map(tipoCambioMapper::toResponseDto).collect(Collectors.toList());
+	}
+
+	/**
+	 * Guarda un nuevo tipo de cambio.
+	 */
+	@Transactional
+	public TipoCambioResponseDTO guardarTipoCambio(TipoCambioRequestDTO dto) {
+		log.info("Guardando tipo de cambio para {} -> {}", dto.getMonedaOrigen(), dto.getMonedaDestino());
+		tipoCambioValidator.validar(dto); //  valida antes de guardar
+		
+		
+		boolean existeTipoCambio = tipoCambioRepository.existsByMonedaOrigenAndMonedaDestino(
+	            dto.getMonedaOrigen(), dto.getMonedaDestino());
+		
+		if (existeTipoCambio) {
+			log.warn("Ya existe un tipo de cambio para {} -> {}", dto.getMonedaOrigen(), dto.getMonedaDestino());
+	        throw new ResponseStatusException(HttpStatus.CONFLICT, 
+	            "Ya existe un tipo de cambio para " + dto.getMonedaOrigen() + " -> " + dto.getMonedaDestino());
+	    }
+		
+		TipoCambio tipoCambio = tipoCambioRepository.save(tipoCambioMapper.toEntity(dto));
+		
+		log.info("Tipo de cambio guardado  con ID: {}", tipoCambio.getId());
+		
+		return tipoCambioMapper.toResponseDto(tipoCambio);
+	}
+	
+	
+	/**
+	 * Actualiza un tipo de cambio.
+	 */
+	@Transactional
+	public TipoCambioResponseDTO actualizarTipoCambio(Long id, TipoCambioRequestDTO dto) {
+		
+		log.info("Actualizando tipo de cambio con ID: {}", id);
+		
+		TipoCambio tipoCambio = tipoCambioRepository.findById(id)
+				.orElseThrow(() -> {
+					log.error("Tipo de cambio con ID {} no encontrado", id);
+					return new ResponseStatusException(HttpStatus.NOT_FOUND, "Tipo de cambio no encontrado");
+				});
+
+		tipoCambioValidator.validar(dto); // Validación antes de actualizar
+
 		tipoCambio.setMonedaOrigen(dto.getMonedaOrigen());
 		tipoCambio.setMonedaDestino(dto.getMonedaDestino());
 		tipoCambio.setTipoCambio(dto.getTipoCambio());
 
+		TipoCambio actualizado = tipoCambioRepository.save(tipoCambio);
 		
-		tipoCambio = tipoCambioRepository.save(tipoCambio);
+		log.info("Tipo de cambio actualizado correctamente con ID: {}", actualizado.getId());
 
-		return convertirEntidadADTO(tipoCambio);
+		
+		return tipoCambioMapper.toResponseDto(actualizado);
 	}
 
-	private TipoCambio convertirDTOaEntidad(TipoCambioDTO dto) {
-		return new TipoCambio(dto.getId(), dto.getMonedaOrigen(), dto.getMonedaDestino(), dto.getTipoCambio());
-	}
 
-	private TipoCambioDTO convertirEntidadADTO(TipoCambio tipoCambio) {
-		return new TipoCambioDTO(tipoCambio.getId(), tipoCambio.getMonedaOrigen(), tipoCambio.getMonedaDestino(),
-				tipoCambio.getTipoCambio());
-	}
 
 }
